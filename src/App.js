@@ -37,8 +37,8 @@ const driverIcon = L.divIcon({
     </svg>
   `,
   iconSize: [36, 36],
-  iconAnchor: [18, 36],
-  popupAnchor: [0, -36]
+  iconAnchor: [18, 18],
+  popupAnchor: [0, -18]
 });
 
 // --- 2. 模擬數據 ---
@@ -55,10 +55,15 @@ function MapController({ userLoc, targetLoc }) {
   useEffect(() => {
     // 如果有目標位置(點擊司機或點擊定位按鈕)，地圖就滑過去
     if (targetLoc) {
+      map.invalidateSize();
       map.flyTo([targetLoc.lat, targetLoc.lng], 15, { duration: 1.2 });
     }
   }, [targetLoc, map]);
-
+useEffect(() => {
+    setTimeout(() => {
+      map.invalidateSize(); 
+    }, 100);
+  }, [map]);
   return null;
 }
 
@@ -144,7 +149,7 @@ const App = () => {
 
       {/* 地圖區 */}
       <div style={mapContainerStyle} className="z-0">
-        <MapContainer center={[userLoc.lat, userLoc.lng]} zoom={14} style={{ height: '100%', width: '100%' }}>
+        <MapContainer center={[userLoc.lat, userLoc.lng]} zoom={12} style={{ height: '100%', width: '100%' }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           
           {/* 我的位置 */}
@@ -183,7 +188,7 @@ const App = () => {
 
       {/* 司機列表區 */}
       <div className="flex-1 overflow-y-auto p-2">
-        <h2 className="p-2 font-bold text-gray-600 text-sm">附近在線司機 ({drivers.length})</h2>
+        <h2 className="p-2 font-bold text-gray-600 text-sm">附近線上司機 ({drivers.length})</h2>
         {drivers.map(driver => (
           <div 
             key={driver.id} 
