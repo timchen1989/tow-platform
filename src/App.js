@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -68,7 +68,7 @@ const App = () => {
   const [targetLoc, setTargetLoc] = useState(null); // 地圖目前要滑向的目標
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [drivers, setDrivers] = useState(MOCK_DRIVERS);
+  const [drivers, ] = useState(MOCK_DRIVERS);
   const [logs, setLogs] = useState([]); // 簡易 Log 紀錄
 
   // --- 5. 簡易 Log 機制 (存於瀏覽器，不花錢) ---
@@ -114,20 +114,20 @@ const App = () => {
 
   // --- 8. 回報錯誤功能 ---
   const reportError = () => {
-    const emailBody = `問題描述: \n\n 最近日誌: \n${logs.join('\n')}`;
+    // const emailBody = `問題描述: \n\n 最近日誌: \n${logs.join('\n')}`;
     window.location.href = `mailto:admin@://example.com{encodeURIComponent(emailBody)}`;
   };
 
   //Log 儲存 User ID
   // 在 App 組件內部
-  const [userId] = useState(() => {
-    let id = localStorage.getItem('tow_user_id');
-    if (!id) {
-      id = 'User_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('tow_user_id', id);
-    }
-    return id;
-  });
+  // const [userId] = useState(() => {
+  //   let id = localStorage.getItem('tow_user_id');
+  //   if (!id) {
+  //     id = 'User_' + Math.random().toString(36).substr(2, 9);
+  //     localStorage.setItem('tow_user_id', id);
+  //   }
+  //   return id;
+  // });
   if (loading) return <div className="h-screen flex items-center justify-center">正在確認您的位置...</div>;
 
   return (
