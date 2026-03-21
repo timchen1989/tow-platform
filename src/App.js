@@ -8,14 +8,14 @@ import L from 'leaflet';
 
 // --- 2. Firebase 設定 (放在組件外面，只初始化一次) ---
 const firebaseConfig = {
-  apiKey: "AIzaSyCcXEB4nS7ApHK4-5le0iLaZMOqAyFr1rs",
-  authDomain: "taipei-tow.firebaseapp.com",
-  databaseURL: "https://taipei-tow-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "taipei-tow",
-  storageBucket: "taipei-tow.firebasestorage.app",
-  messagingSenderId: "879808326400",
-  appId: "1:879808326400:web:9db0a593acd7ea9b9561e5",
-  measurementId: "G-KN4PEWD91E"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
