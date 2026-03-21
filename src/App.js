@@ -134,6 +134,7 @@ const App = () => {
     const driversRef = ref(db, 'drivers');
     onValue(driversRef, (snapshot) => {
       const data = snapshot.val();
+      console.log("讀取拖車司機資料:" + data);
       if (data) {
         // 轉為陣列並過濾「待命中 (online)」的司機
         const list = Object.entries(data)
@@ -142,7 +143,7 @@ const App = () => {
         setOnlineDrivers(list);
       }
     });
-  }, []);
+  }, [onlineDrivers]);
 
  
  // --- 司機註冊功能 ---
@@ -172,22 +173,22 @@ const App = () => {
   };
 
   // --- 司機更新狀態/價格 ---
-  const toggleStatus = (currentStatus) => {
-    const newStatus = currentStatus === 'online' ? 'offline' : 'online';
-    update(ref(db, `drivers/${myDriverId}`), { 
-      status: newStatus,
-      lat: userLoc.lat, // 更新當前位置
-      lng: userLoc.lng 
-    });
-  };
+  // const toggleStatus = (currentStatus) => {
+  //   const newStatus = currentStatus === 'online' ? 'offline' : 'online';
+  //   update(ref(db, `drivers/${myDriverId}`), { 
+  //     status: newStatus,
+  //     lat: userLoc.lat, // 更新當前位置
+  //     lng: userLoc.lng 
+  //   });
+  // };
 
 // D. 輔助組件 (將之前的地圖與列表包裝起來，方便切換畫面)
-  const UserView = () => (
-    <div className="flex flex-col h-screen">
-       {/* 這裡放你原本 return 裡面的地圖、司機列表、Header */}
-       {/* 注意：這裡要改用 onlineDrivers 而不是 MOCK_DRIVERS */}
-    </div>
-  );
+  // const UserView = () => (
+  //   <div className="flex flex-col h-screen">
+  //      {/* 這裡放你原本 return 裡面的地圖、司機列表、Header */}
+  //      {/* 注意：這裡要改用 onlineDrivers 而不是 MOCK_DRIVERS */}
+  //   </div>
+  // );
 
   // E. 畫面切換邏輯 (核心控制)
    if (viewMode === 'register') {
@@ -397,7 +398,7 @@ const DriverPanel = ({ driverId, onExit }) => {
       }
     });
     return () => unsubscribe();
-  }, [driverId]);
+  }, [driverId, isUpdating]);
 
   const handleUpdate = async (updates) => {
     setIsUpdating(true);
