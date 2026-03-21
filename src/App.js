@@ -60,11 +60,11 @@ const driverIcon = L.divIcon({
 });
 
 // --- 2. 模擬數據 ---
-const MOCK_DRIVERS = [
-  { id: 1, name: "阿強專業拖吊", phone: "0912345678", lat: 25.0330, lng: 121.5654, price: 1500, rating: 4.8, type: "全載/吊桿" },
-  { id: 2, name: "大台北救援王", phone: "0987654321", lat: 25.0400, lng: 121.5700, price: 1200, rating: 4.5, type: "一般拖吊" },
-  { id: 3, name: "誠信道路救援", phone: "0900111222", lat: 25.0250, lng: 121.5550, price: 1600, rating: 4.9, type: "全載" },
-];
+// const MOCK_DRIVERS = [
+//   { id: 1, name: "阿強專業拖吊", phone: "0912345678", lat: 25.0330, lng: 121.5654, price: 1500, rating: 4.8, type: "全載/吊桿" },
+//   { id: 2, name: "大台北救援王", phone: "0987654321", lat: 25.0400, lng: 121.5700, price: 1200, rating: 4.5, type: "一般拖吊" },
+//   { id: 3, name: "誠信道路救援", phone: "0900111222", lat: 25.0250, lng: 121.5550, price: 1600, rating: 4.9, type: "全載" },
+// ];
 
 // --- 3.3地圖控制組件 (解決地圖亂跑的核心) ---
 function MapController({ userLoc, targetLoc }) {
