@@ -105,7 +105,7 @@ const App = () => {
   const addLog = (message) => {
     const newLog = `${new Date().toLocaleTimeString()}: ${message}`;
     console.log(newLog);
-    setLogs(prev => [newLog, ...prev].slice(0, 10)); // 只保留最近 10 條
+    setLogs(prev => [newLog, ...prev].slice(0, 50)); // 只保留最近 10 條
   };
 
   // --- 6. 初始化與定位 ---
@@ -158,15 +158,18 @@ const App = () => {
     };
       try {
         console.log("寫入資料庫 id:"+newId+", 拖車司機: "+newDriver);
+        addLog("寫入資料庫 id:"+newId+", 拖車司機: "+newDriver);
         await set(ref(db, `drivers/${newId}`), newDriver);
         console.log("寫入資料庫成功");
-        addLog("資料庫寫入成功");
+        addLog("資料庫寫入成功 id:"+newId+", 拖車司機: "+newDriver);
+        
         // 模擬寄信：實務上可用 EmailJS (免費) 或簡單跳通知
         console.log("系統已發送註冊通知給管理員"); 
         localStorage.setItem('my_driver_id', newId);
         setMyDriverId(newId);
         setViewMode('driver_panel');
       }catch(error) {
+        addLog(newId+" 寫入失敗:", error)
         console.error("寫入失敗:", error);
         alert("註冊失敗，請檢查網路");
       }
@@ -198,7 +201,7 @@ const App = () => {
   // --- 8. 回報錯誤功能 ---
   const reportError = () => {
     // const emailBody = `問題描述: \n\n 最近日誌: \n${logs.join('\n')}`;
-    window.location.href = `mailto:admin@://example.com{encodeURIComponent(emailBody)}`;
+    window.location.href = `mailto:zx126434931@gmail.com{encodeURIComponent(emailBody)}`;
   };
 
   if (loading) return <div className="h-screen flex items-center justify-center">正在確認您的位置...</div>;
@@ -268,21 +271,21 @@ const App = () => {
             className={`bg-white m-2 p-4 rounded-xl border-2 transition-all ${selectedDriver?.id === driver.id ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-transparent'}`}
           >
             <div className="flex justify-between items-start">
-              <div>
+              <div className="flex-1 min-w-0">
                 <div className="font-bold text-gray-800">{driver.name}</div>
                 <div className="text-xs text-red-500 font-bold mt-1">起拖價：${driver.price}</div>
-                <div className="text-[10px] text-gray-400 mt-1">評分：★ {driver.rating} | 類型：{driver.type} ｜ 備注:{driver.note} </div>
+                <div className="text-[10px] text-gray-400 mt-1 break-words">評分：★ {driver.rating} | 類型：{driver.type} ｜ 備注:{driver.note} </div>
               </div>
-              <a href={`tel:${driver.phone}`} className="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm">撥號</a>
+              <a href={`tel:${driver.phone}`} className="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm flex-shrink-0 ...">撥號</a>
             </div>
           </div>
         ))}
 
         {/* 預留廣告位 */}
         <div className="m-4 p-10 border-2 border-dashed border-gray-300 rounded-xl bg-gray-100 text-gray-400 text-center text-sm">
-          這裡預留廣告空間 (例如：合作修車廠)
+          這裡預留廣告空間 (例如：合作修車廠/保險公司)
           <br />
-          <span className="text-[10px]">廣告聯繫：09XX-XXX-XXX</span>
+          <span className="text-[10px]">廣告聯繫：zx126434931@gmail.com</span>
         </div>
       </div>
 
@@ -383,7 +386,7 @@ const DriverPanel = ({ driverId, onExit }) => {
   return (
     <div className="flex flex-col h-screen bg-white">
       <header className="bg-green-600 p-6 text-white text-center shadow-lg">
-        <h2 className="text-xl font-bold">更新救援司機資訊</h2>
+        <h2 className="text-xl font-bold">救援司機工作台</h2>
         <p className="text-sm opacity-80">{myInfo.name}</p>
       </header>
 
