@@ -98,7 +98,7 @@ const App = () => {
   const [targetLoc, setTargetLoc] = useState(null); // 地圖目前要滑向的目標
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [drivers, ] = useState(MOCK_DRIVERS);
+  // const [drivers, ] = useState(MOCK_DRIVERS);
   const [logs, setLogs] = useState([]); // 簡易 Log 紀錄
 
   // --- 簡易 Log 機制 (存於瀏覽器，不花錢) ---
@@ -143,7 +143,7 @@ const App = () => {
         setOnlineDrivers(list);
       }
     });
-  }, [onlineDrivers]);
+  }, []);
 
  
  // --- 司機註冊功能 ---
@@ -171,24 +171,6 @@ const App = () => {
         alert("註冊失敗，請檢查網路");
       }
   };
-
-  // --- 司機更新狀態/價格 ---
-  // const toggleStatus = (currentStatus) => {
-  //   const newStatus = currentStatus === 'online' ? 'offline' : 'online';
-  //   update(ref(db, `drivers/${myDriverId}`), { 
-  //     status: newStatus,
-  //     lat: userLoc.lat, // 更新當前位置
-  //     lng: userLoc.lng 
-  //   });
-  // };
-
-// D. 輔助組件 (將之前的地圖與列表包裝起來，方便切換畫面)
-  // const UserView = () => (
-  //   <div className="flex flex-col h-screen">
-  //      {/* 這裡放你原本 return 裡面的地圖、司機列表、Header */}
-  //      {/* 注意：這裡要改用 onlineDrivers 而不是 MOCK_DRIVERS */}
-  //   </div>
-  // );
 
   // E. 畫面切換邏輯 (核心控制)
    if (viewMode === 'register') {
@@ -219,16 +201,6 @@ const App = () => {
     window.location.href = `mailto:admin@://example.com{encodeURIComponent(emailBody)}`;
   };
 
-  //Log 儲存 User ID
-  // 在 App 組件內部
-  // const [userId] = useState(() => {
-  //   let id = localStorage.getItem('tow_user_id');
-  //   if (!id) {
-  //     id = 'User_' + Math.random().toString(36).substr(2, 9);
-  //     localStorage.setItem('tow_user_id', id);
-  //   }
-  //   return id;
-  // });
   if (loading) return <div className="h-screen flex items-center justify-center">正在確認您的位置...</div>;
 
   return (
@@ -257,7 +229,7 @@ const App = () => {
           </Marker>
 
           {/* 司機位置 */}
-          {drivers.map(driver => (
+          {onlineDrivers.map(driver => (
             <Marker 
               key={driver.id} 
               position={[driver.lat, driver.lng]} 
@@ -287,8 +259,8 @@ const App = () => {
 
       {/* 司機列表區 */}
       <div className="flex-1 overflow-y-auto p-2">
-        <h2 className="p-2 font-bold text-gray-600 text-sm">附近線上司機 ({drivers.length})</h2>
-        {drivers.map(driver => (
+        <h2 className="p-2 font-bold text-gray-600 text-sm">附近線上司機 ({onlineDrivers.length})</h2>
+        {onlineDrivers.map(driver => (
           <div 
             key={driver.id} 
             id={`driver-${driver.id}`}
