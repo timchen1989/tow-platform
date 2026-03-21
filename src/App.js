@@ -151,7 +151,7 @@ const App = () => {
     const newId = 'DRV' + Date.now();
     const newDriver = {
       ...formData,
-      status: 'offline', // 初始下工
+      status: 'offline', // 初始下班
       rating: 5.0,
       lat: userLoc.lat,
       lng: userLoc.lng
@@ -209,7 +209,7 @@ const App = () => {
       {/* Header */}
       <header className="bg-blue-600 text-white p-4 z-10 shadow-md">
         <div className="flex justify-between items-center">
-          <h1 className="text-xl font-bold">台北找拖吊</h1>
+          <h1 className="text-xl font-bold">道路救援媒合站</h1>
           <button onClick={reportError} className="text-xs bg-red-500 px-2 py-1 rounded">報修</button>
           <button onClick={() => setViewMode(myDriverId ? 'driver_panel' : 'register')} className="bg-white text-blue-600 px-2 py-1 rounded text-xs font-bold">
           {myDriverId ? "司機管理" : "司機加入"}
@@ -271,7 +271,7 @@ const App = () => {
               <div>
                 <div className="font-bold text-gray-800">{driver.name}</div>
                 <div className="text-xs text-red-500 font-bold mt-1">起拖價：${driver.price}</div>
-                <div className="text-[10px] text-gray-400 mt-1">評分：★ {driver.rating} | 類型：{driver.type}</div>
+                <div className="text-[10px] text-gray-400 mt-1">評分：★ {driver.rating} | 類型：{driver.type} ｜ 備注:{driver.note} </div>
               </div>
               <a href={`tel:${driver.phone}`} className="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm">撥號</a>
             </div>
@@ -311,8 +311,8 @@ const RegisterForm = ({ onSubmit, onCancel }) => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 p-6 overflow-y-auto">
-      <h2 className="text-2xl font-bold text-blue-600 mb-2">加入拖吊司機</h2>
-      <p className="text-gray-500 text-sm mb-6">填寫後管理員將進行審核，審核通過即可上工。</p>
+      <h2 className="text-2xl font-bold text-blue-600 mb-2">加入拖吊救援司機</h2>
+      <p className="text-gray-500 text-sm mb-6">填寫後管理員將進行審核，審核通過就能即刻救援。</p>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -383,7 +383,7 @@ const DriverPanel = ({ driverId, onExit }) => {
   return (
     <div className="flex flex-col h-screen bg-white">
       <header className="bg-green-600 p-6 text-white text-center shadow-lg">
-        <h2 className="text-xl font-bold">司機工作台</h2>
+        <h2 className="text-xl font-bold">更新救援司機資訊</h2>
         <p className="text-sm opacity-80">{myInfo.name}</p>
       </header>
 
@@ -397,7 +397,7 @@ const DriverPanel = ({ driverId, onExit }) => {
               myInfo.status === 'online' ? 'bg-green-500 text-white border-b-8 border-green-700' : 'bg-gray-200 text-gray-500 border-b-8 border-gray-300'
             }`}
           >
-            {myInfo.status === 'online' ? "🟢 待命接單中" : "⚪️ 休息下工中"}
+            {myInfo.status === 'online' ? "🟢 救援待命中" : "⚪️ 休息下班"}
           </button>
         </div>
 
@@ -407,6 +407,11 @@ const DriverPanel = ({ driverId, onExit }) => {
             <label className="text-xs font-bold text-gray-400">目前起拖價</label>
             <input type="number" className="w-full text-xl font-bold bg-transparent border-b border-gray-300 focus:outline-none" 
               defaultValue={myInfo.price} onBlur={(e) => handleUpdate({ price: e.target.value })} />
+          </div>
+          <div>
+            <label className="text-xs font-bold text-gray-400">電話</label>
+            <textarea className="w-full text-xl font-bold bg-transparent border-b border-gray-300 focus:outline-none" 
+              defaultValue={myInfo.phone} onBlur={(e) => handleUpdate({ phone: e.target.value })} />
           </div>
           <div>
             <label className="text-xs font-bold text-gray-400">更新備註</label>
